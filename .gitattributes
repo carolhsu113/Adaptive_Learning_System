@@ -1,0 +1,2 @@
+# Skill package integrity depends on exact file bytes.
+skills/** -text

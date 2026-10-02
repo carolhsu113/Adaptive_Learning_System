@@ -1,0 +1,9 @@
+.venv/
+config/settings.local.toml
+var/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.playwright/
+evidence/live-*/
+*.log

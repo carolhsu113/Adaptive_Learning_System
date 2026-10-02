@@ -1,0 +1,14 @@
+{
+  "brief_id": "peabody-john-equation-001",
+  "source": "static_peabody_preview",
+  "teacher_label": "Mrs. Peabody",
+  "student_name": "John",
+  "language": "English",
+  "task_input": {
+    "problem": "Solve the equation 3(x − 2) = 12. Show your reasoning step by step.",
+    "original_answer": "x = 14/3",
+    "attempts": "3x − 2 = 12\n3x = 14 → x = 14/3",
+    "concern": "I’m not sure where I went wrong.",
+    "other_known_information": null
+  }
+}

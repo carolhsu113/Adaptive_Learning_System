@@ -1,0 +1,14 @@
+{
+  "skills": [
+    {
+      "skill_id": "SK-01",
+      "version": "2.0",
+      "entry_path": "skills/socratic-inquiry/SKILL.md",
+      "reference_paths": [
+        "skills/socratic-inquiry/references/teaching-flow.md",
+        "skills/socratic-inquiry/references/visibility.md"
+      ],
+      "package_sha256": "2109dcd3bcc546a2d9acd8187d7c781103361a969d6023893806331bf697935a"
+    }
+  ]
+}

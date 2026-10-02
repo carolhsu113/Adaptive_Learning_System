@@ -1,0 +1,7 @@
+fastapi
+httpx
+openai
+playwright
+pydantic
+pytest
+uvicorn

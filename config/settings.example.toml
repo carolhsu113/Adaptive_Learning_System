@@ -1,0 +1,14 @@
+host = "127.0.0.1"
+port = 8767
+data_dir = "var/data"
+skill_registry = "config/skill_registry.json"
+
+[runtime]
+provider = "openai_responses"
+model = ""
+# Optional OpenAI-compatible Responses endpoint. Leave blank for OpenAI.
+# DeepSeek example: api_base_url = "https://api.deepseek.com"
+api_base_url = ""
+timeout_seconds = 90
+max_retries = 0
+store = false

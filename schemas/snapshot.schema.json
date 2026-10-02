@@ -1,0 +1,770 @@
+{
+  "$defs": {
+    "AttemptPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "submission_id": {
+          "title": "Submission Id",
+          "type": "string"
+        },
+        "answer_hash": {
+          "title": "Answer Hash",
+          "type": "string"
+        },
+        "result": {
+          "enum": [
+            "pending",
+            "failed",
+            "saved"
+          ],
+          "title": "Result",
+          "type": "string"
+        }
+      },
+      "required": [
+        "submission_id",
+        "answer_hash",
+        "result"
+      ],
+      "title": "AttemptPayload",
+      "type": "object"
+    },
+    "AuthorizedMaterial": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AuthorizedMaterialSource"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "AuthorizedMaterial",
+      "type": "object"
+    },
+    "AuthorizedMaterialSource": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "authorized_system",
+            "teacher",
+            "llm"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "model_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Version"
+        },
+        "generated_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Generated At"
+        },
+        "teacher_confirmation": {
+          "enum": [
+            "confirmed",
+            "unconfirmed",
+            "not_applicable"
+          ],
+          "title": "Teacher Confirmation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "source_id",
+        "teacher_confirmation"
+      ],
+      "title": "AuthorizedMaterialSource",
+      "type": "object"
+    },
+    "AuthorizedMaterials": {
+      "additionalProperties": false,
+      "properties": {
+        "learning_objective": {
+          "$ref": "#/$defs/AuthorizedMaterial",
+          "default": {
+            "value": null,
+            "source": null
+          }
+        },
+        "reference_answer": {
+          "$ref": "#/$defs/AuthorizedMaterial",
+          "default": {
+            "value": null,
+            "source": null
+          }
+        }
+      },
+      "title": "AuthorizedMaterials",
+      "type": "object"
+    },
+    "FailurePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "minLength": 1,
+          "title": "Code",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "title": "FailurePayload",
+      "type": "object"
+    },
+    "MissingField": {
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "title": "Field",
+          "type": "string"
+        },
+        "reason": {
+          "enum": [
+            "not_provided_by_student",
+            "not_provided_by_authorized_source"
+          ],
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "field",
+        "reason"
+      ],
+      "title": "MissingField",
+      "type": "object"
+    },
+    "OperationFailedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "seq": {
+          "minimum": 1,
+          "title": "Seq",
+          "type": "integer"
+        },
+        "at": {
+          "title": "At",
+          "type": "string"
+        },
+        "request_id": {
+          "title": "Request Id",
+          "type": "string"
+        },
+        "type": {
+          "const": "operation_failed",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/FailurePayload"
+        }
+      },
+      "required": [
+        "event_id",
+        "seq",
+        "at",
+        "request_id",
+        "type",
+        "payload"
+      ],
+      "title": "OperationFailedEvent",
+      "type": "object"
+    },
+    "RuntimeRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "const": "openai_responses",
+          "title": "Provider",
+          "type": "string"
+        },
+        "requested_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Requested Model"
+        },
+        "returned_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Returned Model"
+        },
+        "sdk_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Sdk Version"
+        }
+      },
+      "required": [
+        "provider",
+        "requested_model",
+        "returned_model",
+        "sdk_version"
+      ],
+      "title": "RuntimeRecord",
+      "type": "object"
+    },
+    "SkillIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "SK-01",
+          "title": "Id",
+          "type": "string"
+        },
+        "version": {
+          "const": "2.0",
+          "title": "Version",
+          "type": "string"
+        },
+        "package_sha256": {
+          "title": "Package Sha256",
+          "type": "string"
+        },
+        "envelope_version": {
+          "default": "1.0",
+          "title": "Envelope Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "package_sha256"
+      ],
+      "title": "SkillIdentity",
+      "type": "object"
+    },
+    "SnapshotSubmission": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "submitted_at": {
+          "title": "Submitted At",
+          "type": "string"
+        },
+        "result": {
+          "const": "saved",
+          "title": "Result",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "submitted_at",
+        "result"
+      ],
+      "title": "SnapshotSubmission",
+      "type": "object"
+    },
+    "StateChangedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "seq": {
+          "minimum": 1,
+          "title": "Seq",
+          "type": "integer"
+        },
+        "at": {
+          "title": "At",
+          "type": "string"
+        },
+        "request_id": {
+          "title": "Request Id",
+          "type": "string"
+        },
+        "type": {
+          "const": "state_changed",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/StatePayload"
+        }
+      },
+      "required": [
+        "event_id",
+        "seq",
+        "at",
+        "request_id",
+        "type",
+        "payload"
+      ],
+      "title": "StateChangedEvent",
+      "type": "object"
+    },
+    "StatePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "enum": [
+            "help_input",
+            "tutoring",
+            "ready_for_submission",
+            "final_answer",
+            "submitting",
+            "submit_failed",
+            "completed"
+          ],
+          "title": "From",
+          "type": "string"
+        },
+        "to": {
+          "enum": [
+            "help_input",
+            "tutoring",
+            "ready_for_submission",
+            "final_answer",
+            "submitting",
+            "submit_failed",
+            "completed"
+          ],
+          "title": "To",
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ],
+      "title": "StatePayload",
+      "type": "object"
+    },
+    "StudentInputEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "seq": {
+          "minimum": 1,
+          "title": "Seq",
+          "type": "integer"
+        },
+        "at": {
+          "title": "At",
+          "type": "string"
+        },
+        "request_id": {
+          "title": "Request Id",
+          "type": "string"
+        },
+        "type": {
+          "const": "student_input",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/TextPayload"
+        }
+      },
+      "required": [
+        "event_id",
+        "seq",
+        "at",
+        "request_id",
+        "type",
+        "payload"
+      ],
+      "title": "StudentInputEvent",
+      "type": "object"
+    },
+    "StudentVisibleOutputEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "seq": {
+          "minimum": 1,
+          "title": "Seq",
+          "type": "integer"
+        },
+        "at": {
+          "title": "At",
+          "type": "string"
+        },
+        "request_id": {
+          "title": "Request Id",
+          "type": "string"
+        },
+        "type": {
+          "const": "student_visible_output",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/TextPayload"
+        }
+      },
+      "required": [
+        "event_id",
+        "seq",
+        "at",
+        "request_id",
+        "type",
+        "payload"
+      ],
+      "title": "StudentVisibleOutputEvent",
+      "type": "object"
+    },
+    "SubmissionAttemptEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "seq": {
+          "minimum": 1,
+          "title": "Seq",
+          "type": "integer"
+        },
+        "at": {
+          "title": "At",
+          "type": "string"
+        },
+        "request_id": {
+          "title": "Request Id",
+          "type": "string"
+        },
+        "type": {
+          "const": "submission_attempt",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/AttemptPayload"
+        }
+      },
+      "required": [
+        "event_id",
+        "seq",
+        "at",
+        "request_id",
+        "type",
+        "payload"
+      ],
+      "title": "SubmissionAttemptEvent",
+      "type": "object"
+    },
+    "SubmissionSucceededEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "seq": {
+          "minimum": 1,
+          "title": "Seq",
+          "type": "integer"
+        },
+        "at": {
+          "title": "At",
+          "type": "string"
+        },
+        "request_id": {
+          "title": "Request Id",
+          "type": "string"
+        },
+        "type": {
+          "const": "submission_succeeded",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/SuccessPayload"
+        }
+      },
+      "required": [
+        "event_id",
+        "seq",
+        "at",
+        "request_id",
+        "type",
+        "payload"
+      ],
+      "title": "SubmissionSucceededEvent",
+      "type": "object"
+    },
+    "SuccessPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "submission_id": {
+          "title": "Submission Id",
+          "type": "string"
+        },
+        "record_id": {
+          "title": "Record Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "submission_id",
+        "record_id"
+      ],
+      "title": "SuccessPayload",
+      "type": "object"
+    },
+    "TaskInput": {
+      "additionalProperties": false,
+      "properties": {
+        "concern": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Concern"
+        },
+        "problem": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Problem"
+        },
+        "original_answer": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Original Answer"
+        },
+        "attempts": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attempts"
+        },
+        "other_known_information": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Other Known Information"
+        }
+      },
+      "title": "TaskInput",
+      "type": "object"
+    },
+    "TextPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "TextPayload",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "record_id": {
+      "title": "Record Id",
+      "type": "string"
+    },
+    "session_id": {
+      "title": "Session Id",
+      "type": "string"
+    },
+    "skill": {
+      "$ref": "#/$defs/SkillIdentity"
+    },
+    "runtime": {
+      "$ref": "#/$defs/RuntimeRecord"
+    },
+    "task_input": {
+      "$ref": "#/$defs/TaskInput"
+    },
+    "events": {
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "operation_failed": "#/$defs/OperationFailedEvent",
+            "state_changed": "#/$defs/StateChangedEvent",
+            "student_input": "#/$defs/StudentInputEvent",
+            "student_visible_output": "#/$defs/StudentVisibleOutputEvent",
+            "submission_attempt": "#/$defs/SubmissionAttemptEvent",
+            "submission_succeeded": "#/$defs/SubmissionSucceededEvent"
+          },
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/StudentInputEvent"
+          },
+          {
+            "$ref": "#/$defs/StudentVisibleOutputEvent"
+          },
+          {
+            "$ref": "#/$defs/StateChangedEvent"
+          },
+          {
+            "$ref": "#/$defs/SubmissionAttemptEvent"
+          },
+          {
+            "$ref": "#/$defs/SubmissionSucceededEvent"
+          },
+          {
+            "$ref": "#/$defs/OperationFailedEvent"
+          }
+        ]
+      },
+      "title": "Events",
+      "type": "array"
+    },
+    "authorized_materials": {
+      "$ref": "#/$defs/AuthorizedMaterials"
+    },
+    "missing_fields": {
+      "items": {
+        "$ref": "#/$defs/MissingField"
+      },
+      "title": "Missing Fields",
+      "type": "array"
+    },
+    "final_answer": {
+      "title": "Final Answer",
+      "type": "string"
+    },
+    "submission": {
+      "$ref": "#/$defs/SnapshotSubmission"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_id",
+    "session_id",
+    "skill",
+    "runtime",
+    "task_input",
+    "events",
+    "authorized_materials",
+    "missing_fields",
+    "final_answer",
+    "submission"
+  ],
+  "title": "SnapshotRecord",
+  "type": "object"
+}

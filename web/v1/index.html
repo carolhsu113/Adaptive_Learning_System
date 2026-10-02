@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ALS 学习对话</title>
+  <link rel="stylesheet" href="/v1/styles.css">
+  <script src="/v1/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <aside id="materials" class="materials" hidden>
+      <h2>当前任务材料</h2>
+      <p class="aside-note">以下保留你提供的原文；后续更正记录在对话中。</p>
+      <div id="material-list"></div>
+    </aside>
+    <main class="workspace">
+      <header class="topbar">
+        <span class="brand-avatar" aria-hidden="true">S</span>
+        <div><strong>Socratic</strong><small>当前学习会话 · 逐轮对话</small></div>
+        <button id="new-problem" class="new-problem" type="button" hidden>开始新问题</button>
+      </header>
+      <section id="stream" class="stream" aria-label="学习对话" aria-live="polite">
+        <form id="start-form" class="start-card">
+          <h1>从你的困惑开始</h1>
+          <p>说说你正在处理什么；只提供一项材料也可以开始。</p>
+          <label>当前困惑<textarea name="concern" aria-label="当前困惑" rows="3"></textarea></label>
+          <details><summary>添加题目、原答案或已尝试步骤</summary>
+            <label>题目<textarea name="problem" aria-label="题目" rows="2"></textarea></label>
+            <label>原答案<textarea name="original_answer" aria-label="原答案" rows="2"></textarea></label>
+            <label>已尝试步骤<textarea name="attempts" aria-label="已尝试步骤" rows="2"></textarea></label>
+            <label>其他已知信息<textarea name="other_known_information" aria-label="其他已知信息" rows="2"></textarea></label>
+          </details>
+          <div class="actions"><span id="task-save-status" class="status" role="status">尚未填写</span><button id="retry-task-save" class="secondary" type="button" hidden>重新保存</button><button class="primary" type="submit">开始对话</button></div>
+        </form>
+        <div id="dialogue" hidden>
+          <div id="task-card" class="task-card"></div>
+          <div id="messages"></div>
+          <div id="system-message" class="system-message" hidden></div>
+          <div id="ready-card" class="stage-card" hidden><h2>本次引导已结束</h2><p>请独立填写最终作答。</p><button id="enter-answer" class="primary" type="button">前往最终作答</button></div>
+          <div id="completed-card" class="stage-card" hidden><h2>作答已保存</h2><p>本次学习记录已保存；这不表示对答案作出判断。</p><button class="secondary new-problem-action" type="button">开始新问题</button></div>
+        </div>
+        <div id="recovery-card" class="stage-card" hidden><h2>无法恢复此会话</h2><p>原会话没有被清空。你可以开始新问题。</p><button class="secondary new-problem-action" type="button">开始新问题</button></div>
+      </section>
+      <form id="chat-composer" class="composer" hidden><div class="composer-row"><textarea id="reply" aria-label="本轮回应" placeholder="输入对当前问题的回应……" rows="2"></textarea><button id="send" class="primary" type="submit">发送</button></div><div class="actions"><span id="turn-status" class="status" role="status">你的回应将接续此会话。</span><button id="retry-turn" class="secondary" type="button" hidden>重试本轮</button></div></form>
+      <form id="answer-composer" class="answer-composer" hidden><h2>我的最终作答</h2><p>请亲自写下准备提交的答案。聊天内容不会填入这里。</p><textarea id="answer" aria-label="我的最终作答" rows="4"></textarea><div class="actions"><span id="answer-save-status" class="status" role="status">尚未填写</span><button id="retry-answer-save" class="secondary" type="button" hidden>重新保存</button><button id="submit-answer" class="primary" type="submit">提交作答</button></div></form>
+    </main>
+  </div>
+</body>
+</html>
