@@ -106,7 +106,9 @@ Keep your API key in your personal local environment. Each person running ALS co
 .\.venv\Scripts\python.exe -m app.main
 ```
 
-After the configuration check passes and the service starts, open **http://127.0.0.1:8767/** in your browser. Keep the PowerShell window open while using ALS. Select **Ask a teacher**, wait for Socratic’s opening message, then enter your reply and select **Send**.
+After the configuration check passes and the service starts, open a **private browsing window (Incognito/InPrivate)** and visit **http://127.0.0.1:8767/**. Keep the PowerShell window open while using ALS. Select **Ask a teacher**, wait for Socratic’s opening message, then enter your reply and select **Send**.
+
+**For this version, please use a private browsing window.** ALS does not yet have user accounts, and your browser remembers the last conversation. A regular window may reopen that conversation, so your new replies could continue an earlier session. Private browsing keeps this experience separate from your regular browser’s saved session. To start a fresh experience, close all existing private windows before opening a new one; another private tab or window may share the same session.
 
 The configuration check verifies local settings and required files. The first conversation request connects to your selected model provider. If a request fails, follow the on-screen guidance to check your API key, model permissions, account balance, and network connection. When **Retry** is available, you can try again.
 
