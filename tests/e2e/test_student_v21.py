@@ -47,6 +47,7 @@ def test_enter_queues_reply_while_opening_is_pending_then_sends_once(student_pag
         expect(page.get_by_role("button", name="Send", exact=True)).to_be_enabled(timeout=1000)
         reply.press("Enter")
         expect(page.locator(".tutor-message.student.queued")).to_have_count(1)
+        expect(reply).to_have_value("")
         runtime.release.set()
         expect(page.locator(".tutor-message.assistant")).to_have_count(2)
         expect(page.locator(".tutor-message.student:not(.queued)")).to_have_count(1)
@@ -276,3 +277,58 @@ def test_failed_send_displays_unsent_reply_and_system_notice_by_john(student_pag
     assert page.locator("#system-notice #retry-tutor").count() == 1
     assert page.get_by_role("button", name="Retry").evaluate("el => getComputedStyle(el).backgroundColor") != page.get_by_role("button", name="Send", exact=True).evaluate("el => getComputedStyle(el).backgroundColor")
     page.screenshot(path=str(data_dir / "system-notice.png"), full_page=True)
+
+
+@pytest.mark.parametrize("size", [(1280, 720), (1366, 768), (1024, 768)])
+def test_homepage_help_button_fits_laptop_viewport(student_page, size):
+    page, origin, _ = student_page
+    page.set_viewport_size({"width": size[0], "height": size[1]})
+    page.goto(origin)
+    button = page.get_by_role("button", name="Ask a teacher")
+    bounds = button.bounding_box()
+    assert bounds["y"] >= 0
+    assert bounds["y"] + bounds["height"] <= size[1]
+
+
+@pytest.mark.parametrize("student_page", [FailFirstOpening()], indirect=True)
+def test_chat_follows_new_messages_and_keeps_composer_visible(student_page):
+    from playwright.sync_api import expect
+    page, origin, _ = student_page
+    page.set_viewport_size({"width": 1280, "height": 720})
+    page.goto(origin)
+    page.get_by_role("button", name="Ask a teacher").click()
+    page.get_by_role("button", name="Retry").click()
+    page.locator(".tutor-message.assistant").wait_for()
+    reply = page.get_by_label("Your reply")
+    for index in range(6):
+        reply.fill(f"Thought {index}: " + "I need to check both terms. " * 12)
+        reply.press("Enter")
+        expect(page.locator(".tutor-message.assistant")).to_have_count(index + 2)
+    bounds = reply.bounding_box()
+    assert bounds["y"] + bounds["height"] <= 720
+    assert page.locator(".tutoring-main").evaluate("el => el.scrollHeight > el.clientHeight")
+    assert page.locator(".tutor-message").last.evaluate("""el => {
+      const row = el.getBoundingClientRect();
+      const pane = el.closest('.tutoring-main').getBoundingClientRect();
+      return row.top >= pane.top && row.bottom <= pane.bottom;
+    }""")
+
+
+def test_sent_reply_clears_immediately_and_retry_preserves_new_draft(student_page):
+    from playwright.sync_api import expect
+    page, origin, _ = student_page
+    page.goto(origin)
+    page.get_by_role("button", name="Ask a teacher").click()
+    page.locator(".tutor-message.assistant").wait_for()
+    page.route("**/api/sessions/*/turns", lambda route: route.abort())
+    reply = page.get_by_label("Your reply")
+    reply.fill("My submitted thought.")
+    reply.press("Enter")
+    expect(page.locator(".tutor-message.student.queued")).to_have_count(1)
+    expect(reply).to_have_value("")
+    page.get_by_text("Delivery unconfirmed", exact=True).wait_for()
+    reply.fill("My next draft.")
+    page.unroute("**/api/sessions/*/turns")
+    page.get_by_role("button", name="Retry", exact=True).click()
+    expect(page.locator(".tutor-message.student:not(.queued)")).to_have_count(1)
+    expect(reply).to_have_value("My next draft.")

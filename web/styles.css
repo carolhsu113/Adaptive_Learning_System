@@ -62,6 +62,32 @@
 .whiteboard-panel .ready-button { width: 100%; padding: 14px 16px; border: 2px solid #fff; border-radius: 999px; background: #a8f3da; color: #173540; font-weight: 800; font-size: 14px; line-height: 1.25; box-shadow: 0 9px 28px #0004, 0 0 0 5px #a8f3da38; cursor: pointer; }
 .whiteboard-panel .ready-button:disabled { border-color: #c6d9d5; background: #dce9e7; color: #7b918e; box-shadow: none; cursor: not-allowed; }
 .whiteboard-panel #practice-notice { margin: -8px 0 0; color: #54786d; font-size: 13px; line-height: 1.4; }
+/* Bound the conversation, so its history scrolls while the composer stays put. */
+.socratic-page .tutoring { height: calc(100dvh - 70px); min-height: 0; overflow: hidden; }
+.tutor-form textarea { max-height: min(180px, 25dvh); }
+@media (min-width: 901px) {
+  .socratic-page { height: calc(100dvh - 70px); min-height: 0; }
+  .socratic-sidebar, .whiteboard-panel { min-height: 0; overflow-y: auto; }
+  .received-board { min-height: 0; flex: none; }
+  .whiteboard-frame { flex: 1; min-height: 180px; }
+  #home { height: calc(100dvh - 70px); min-height: 0; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1.22fr) minmax(0, .9fr); padding: 16px; gap: 16px; }
+  #home .column { min-height: 0; gap: 12px; }
+  #home .right { display: flex; grid-column: auto; }
+  #home .card { padding: 16px; }
+  #home .draft { min-height: 110px; }
+  #home .wonder { min-height: 0; overflow-y: auto; }
+  #home .teacher { padding-bottom: 12px; margin-bottom: 16px; }
+  #home .thread { gap: 16px; }
+  #home .bubble { padding: 12px; }
+  #home .footer { padding-top: 16px; }
+  #home .ring { width: 120px; height: 120px; }
+  #home .score .title { margin-bottom: 8px; }
+  #home .inner { width: 101px; height: 101px; }
+  #home .ring span { max-width: 80px; text-align: center; }
+  #home .checks li { padding: 8px 0; }
+  #home .checks { margin-bottom: 12px; }
+  #home .ask { flex: none; padding: 12px; }
+}
 @media (max-width: 1120px) { .socratic-page { grid-template-columns: minmax(210px, 23%) minmax(380px, 1fr) minmax(225px, 25%); } .socratic-sidebar, .whiteboard-panel { padding-left: 15px; padding-right: 15px; } .received-board { padding: 18px 14px; border-width: 9px; } }
 @media (max-width: 900px) { .socratic-page { grid-template-columns: 220px minmax(0, 1fr); } .whiteboard-panel { grid-column: 1 / -1; border-left: 0; border-top: 1px solid #dfeae8; } .whiteboard-frame { height: 310px; min-height: 310px; } }
-@media (max-width: 650px) { .socratic-page { display: flex; flex-direction: column; } .socratic-sidebar { gap: 10px; } .received-board { min-height: 320px; } .session-status { margin-top: 0; } .socratic-page .tutoring { min-height: 650px; } .socratic-page .tutoring-header { min-height: 126px; gap: 12px; padding: 14px 16px; } .socratic-portrait { width: 68px; height: 68px; } .tutoring-header p { font-size: 12px; } .tutoring-main { padding: 22px 14px; } .tutoring-footer { padding: 12px 14px; } .tutor-bubble { padding: 14px; } .whiteboard-panel { min-height: 390px; } }
+@media (max-width: 650px) { .socratic-page { display: flex; flex-direction: column; } .socratic-sidebar { gap: 10px; } .received-board { min-height: 320px; } .session-status { margin-top: 0; } .socratic-page .tutoring { height: max(480px, calc(100dvh - 70px)); } .socratic-page .tutoring-header { min-height: 126px; gap: 12px; padding: 14px 16px; } .socratic-portrait { width: 68px; height: 68px; } .tutoring-header p { font-size: 12px; } .tutoring-main { padding: 22px 14px; } .tutoring-footer { padding: 12px 14px; } .tutor-bubble { padding: 14px; } .whiteboard-panel { min-height: 390px; } }

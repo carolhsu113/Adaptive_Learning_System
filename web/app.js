@@ -11,6 +11,7 @@ let submitting = false;
 let retryAction = null;
 let pollTimer = null;
 let queuedReply = null;
+let renderedConversation = null;
 
 async function api(method, path, body) {
   try {
@@ -83,11 +84,17 @@ function renderConversation(next) {
   const messages = next.conversation || [];
   const savedStudentCount = messages.filter((message) => message.role === "student").length;
   if (queuedReply && savedStudentCount > queuedReply.previousStudentCount) queuedReply = null;
+  const content = JSON.stringify([messages, queuedReply]);
+  if (content === renderedConversation) return;
+  renderedConversation = content;
   const list = $("tutor-messages");
   list.replaceChildren();
   for (const message of messages) appendMessage(list, message);
   if (queuedReply) appendMessage(list, {role: "student", text: queuedReply.text}, true);
-  list.scrollTop = list.scrollHeight;
+  requestAnimationFrame(() => {
+    const pane = list.parentElement;
+    pane.scrollTop = pane.scrollHeight;
+  });
 }
 function showView(next) {
   if (!next?.session_id) return;
@@ -146,7 +153,6 @@ async function sendTurn(text, id) {
     showView(result.data);
     if (result.ok && result.data.operation_status !== "pending") {
       sessionStorage.removeItem(turnKey);
-      if (text !== null && $("tutor-reply").value.trim() === text) $("tutor-reply").value = "";
       updateSend();
     }
   } else {
@@ -167,7 +173,10 @@ async function retryLastTurn() {
     return;
   }
   if (!saved) return;
-  if (view?.error?.retryable || view?.operation_status !== "succeeded" || (saved.text === null && !hasTeacherQuestion())) await sendTurn(saved.text, saved.id);
+  if (view?.error?.retryable || view?.operation_status !== "succeeded" ||
+      (saved.text === null && !hasTeacherQuestion()) || (saved.text !== null && queuedReply)) {
+    await sendTurn(saved.text, saved.id);
+  }
 }
 async function prepare(current) {
   if (current.state !== "help_input" || busy) return;
@@ -225,12 +234,14 @@ $("tutor-form").addEventListener("submit", async (event) => {
   if (!text || submitting || $("tutor-send").disabled) return;
   if (busy && !hasTeacherQuestion()) {
     queuedReply = {text, previousStudentCount: 0, state: "waiting"};
+    $("tutor-reply").value = "";
     renderConversation(view);
     updateSend();
     return;
   }
   submitting = true;
   queuedReply = {text, previousStudentCount: (view.conversation || []).filter((message) => message.role === "student").length, state: hasTeacherQuestion() ? "sending" : "waiting"};
+  $("tutor-reply").value = "";
   renderConversation(view);
   updateSend();
   try {
