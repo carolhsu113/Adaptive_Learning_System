@@ -1,6 +1,6 @@
 # ALS — 自适应学习系统
 
-[English](README.md) · [AINE 与作者介绍](https://aine.chaohuihsu.workers.dev/)
+[English](README.md) 
 
 我是 **Carol**，一名独立研究者与技术实践者，自 2015 年起从事自适应学习研究与产品研发。我相信，只要学生愿意学，就会有机会找到适合自己的学习路径；他们缺少的往往不是不够勤奋，而是一个能理解当下困难、陪他们跨过卡点的辅助者。基于这一信念，我在 2025 年发起并持续推进三年期的 **AINE（A Structural Exploration of AI-Native Educational Architectures）** AI 原生项目。
 
@@ -45,8 +45,6 @@ ALS 是 **AINE「AI 原生教育结构体系的探索与实践研究」**的一�
 与 Socratic 对话
 
 ![与 Socratic 对话](docs/assets/Screenshot-SocraticChat-v1.0-2026-10-02.png)
-
-*截图展示 Socratic 对话界面处于请求失败、等待重试的状态。*
 
 
 

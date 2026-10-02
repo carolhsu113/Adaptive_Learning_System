@@ -1,6 +1,6 @@
 # ALS — Adaptive Learning System
 
-[中文版](README.zh-CN.md) · [AINE & author](https://aine.chaohuihsu.workers.dev/)
+[中文版](README.zh-CN.md)
 
 I’m **Carol**, an independent researcher and technology practitioner working on adaptive learning research and product development since 2015. I believe that students who are willing to learn can find a learning path that suits them. What they often lack is not diligence, but someone who understands their current difficulties and helps them move past the points where they get stuck. With this belief, I launched and have continued to develop the three-year **AINE (A Structural Exploration of AI-Native Educational Architectures)** AI-native project since 2025.
 
@@ -42,7 +42,7 @@ Conversation with Socratic
 
 ![Conversation with Socratic](docs/assets/Screenshot-SocraticChat-v1.0-2026-10-02.png)
 
-*The screenshot shows the Socratic conversation interface after a request failed, awaiting a retry.*
+
 
 ## Run ALS locally
 
