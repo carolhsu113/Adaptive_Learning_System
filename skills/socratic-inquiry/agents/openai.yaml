@@ -1,0 +1,7 @@
+interface:
+  display_name: "Socratic Inquiry"
+  short_description: "Guide self-correction through Socratic questions"
+  default_prompt: "Use $socratic-inquiry to guide the student through self-correction of one current task without giving the answer or a complete solution."
+
+policy:
+  allow_implicit_invocation: true
