@@ -121,3 +121,9 @@ This release includes **Student Interface 1.0** and **Socratic Inquiry Skill 2.0
 To explore the complete ALS design concept and examples of the envisioned product, visit the [ALS Demo repository](https://github.com/carolhsu113/Adaptive_Learning_System_Demo).
 
 For the full AINE research background, visit the [AINE project website](https://aine.chaohuihsu.workers.dev/).
+
+## License
+
+This project is licensed under the [MIT License](LICENSE). You may use, modify, and distribute the software, including for commercial purposes, provided that you retain the copyright and license notices.
+
+Copyright (c) 2026 Hsu, Chao-Hui.

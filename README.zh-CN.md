@@ -125,3 +125,9 @@ $env:ALS_BASE_URL = 'https://api.deepseek.com'
 想了解 ALS 的完整设计构想与概念成品样例，可以浏览 [ALS Demo 仓库](https://github.com/carolhsu113/Adaptive_Learning_System_Demo)。
 
 想了解 AINE 的完整研究背景，可以浏览 [AINE 项目网站](https://aine.chaohuihsu.workers.dev/)。
+
+## 开源许可
+
+本项目采用 [MIT 许可](LICENSE)。您可以使用、修改和分发本软件，包括用于商业用途，但须保留版权声明和许可声明。完整条款见 LICENSE 文件。
+
+版权所有 (c) 2026 Hsu, Chao-Hui。
