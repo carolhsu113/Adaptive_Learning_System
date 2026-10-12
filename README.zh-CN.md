@@ -130,4 +130,4 @@ $env:ALS_BASE_URL = 'https://api.deepseek.com'
 
 本项目采用 [MIT 许可](LICENSE)。您可以使用、修改和分发本软件，包括用于商业用途，但须保留版权声明和许可声明。完整条款见 LICENSE 文件。
 
-版权所有 (c) 2026 Hsu, Chao-Hui。
+版权所有 (c) 2026 Hsu,Chao-Hui。

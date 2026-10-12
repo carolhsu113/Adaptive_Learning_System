@@ -126,4 +126,4 @@ For the full AINE research background, visit the [AINE project website](https://
 
 This project is licensed under the [MIT License](LICENSE). You may use, modify, and distribute the software, including for commercial purposes, provided that you retain the copyright and license notices.
 
-Copyright (c) 2026 Hsu, Chao-Hui.
+Copyright (c) 2026 Hsu,Chao-Hui.
